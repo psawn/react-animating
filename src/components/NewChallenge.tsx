@@ -3,6 +3,7 @@ import { ChallengesContext } from "../store/challenges-context";
 import Modal from "./Modal";
 import images from "../assets/images";
 import { ImageType } from "./Challenges";
+import { motion } from "framer-motion";
 
 export default function NewChallenge({ onDone }: { onDone: () => void }) {
   const title = useRef<HTMLInputElement>(null);
@@ -61,13 +62,19 @@ export default function NewChallenge({ onDone }: { onDone: () => void }) {
 
         <ul id="new-challenge-images">
           {images.map((image) => (
-            <li
+            <motion.li
+              variants={{
+                hidden: { opacity: 0, scale: 0.5 },
+                visible: { opacity: 1, scale: 1 },
+              }}
+              transition={{ type: "spring" }}
+              exit={{ opacity: 1, scale: 1 }}
               key={image.alt}
               onClick={() => handleSelectImage(image)}
               className={selectedImage === image ? "selected" : undefined}
             >
               <img {...image} />
-            </li>
+            </motion.li>
           ))}
         </ul>
 
