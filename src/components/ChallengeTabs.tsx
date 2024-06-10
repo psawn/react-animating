@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Badge from "./Badge";
 import { ChallengeType } from "./Challenges";
+import { motion } from "framer-motion";
 
 type ChallengeTab = {
   [key: string]: ChallengeType[];
@@ -19,11 +20,19 @@ function Tab({
 }) {
   return (
     <li>
-      <button className={isSelected ? "selected" : undefined} onClick={onSelect}>
+      <button
+        className={isSelected ? "selected" : undefined}
+        onClick={onSelect}
+      >
         {children}
-        <Badge caption={badgeCaption}></Badge>
+        {/* if add key on the element and change the value that's assigned to the key,
+        React will basically destroy the old component instance and render a new one
+        -> reset any internal state -> re trigger entry animations */}
+        <Badge key={badgeCaption} caption={badgeCaption}></Badge>
       </button>
-      {isSelected && <div className="active-tab-indicator" />}
+      {isSelected && (
+        <motion.div layoutId="tab-indicator" className="active-tab-indicator" />
+      )}
     </li>
   );
 }
